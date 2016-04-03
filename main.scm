@@ -1,6 +1,3 @@
-
-
-
 (use (prefix sdl2 sdl2:)
      loops)
 
