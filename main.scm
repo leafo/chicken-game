@@ -9,6 +9,8 @@
 
 (define quit-game #f)
 (define clear-color (sdl2:make-color 50 50 50))
+(define x 10)
+(define y 10)
 
 (define window
   (sdl2:create-window!
@@ -39,11 +41,16 @@
                   (handle-event ev)
                   (set! done #t))))))
 
+(define (draw)
+  (sdl2:render-draw-color-set! renderer (sdl2:make-color 255 255 255))
+  (sdl2:render-fill-rect! renderer (sdl2:make-rect x y 10 10)))
+
 (define (main-loop)
   (do-while (not (or quit-game (sdl2:quit-requested?)))
             (handle-events)
             (sdl2:render-draw-color-set! renderer clear-color)
             (sdl2:render-clear! renderer)
+            (draw)
             (sdl2:render-present! renderer)
             (sdl2:delay! 10)
             (sdl2:pump-events!)))
