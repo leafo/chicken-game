@@ -1,4 +1,7 @@
 
+(define (v:x vec) (car vec))
+(define (v:y vec) (car (cdr vec)))
+
 (define (v:len vec)
   (let* ((x (car vec))
          (y (car (cdr vec)))
@@ -7,12 +10,11 @@
       0
       (sqrt sq))))
 
-
 (define (v:normalize vec)
   (let ((len (v:len vec)))
     (if (= 0 len)
       vec
       (list
-        (/ (car vec) len)
-        (/ (car (cdr vec)) len)))))
+        (/ (v:x vec) len)
+        (/ (v:y vec) len)))))
 
