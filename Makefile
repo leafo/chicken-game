@@ -4,7 +4,7 @@ run:
 	csi -s main.scm
 
 main: main.scm
-	csc -deploy $<
+	csc  $<
 
 deploy: 
 	csc -deploy -o deploy main.scm
