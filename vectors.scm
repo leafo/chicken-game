@@ -18,3 +18,8 @@
         (/ (v:x vec) len)
         (/ (v:y vec) len)))))
 
+
+(define (v:* vec scalar)
+  (list
+    (* (v:x vec) scalar)
+    (* (v:y vec) scalar)))

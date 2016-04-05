@@ -12,6 +12,7 @@
 (define game-running #t)
 (define clear-color (sdl2:make-color 50 50 50))
 
+(define player-speed 200) ; 200 pixel a second
 (define-record player x y)
 
 (define (player-move obj dx dy)
@@ -38,20 +39,33 @@
 (define (handle-key-down ev)
   (case (sdl2:keyboard-event-sym ev)
     ((left)
-     (player-move p -1 0))
+     (controller-left-set! c #t))
     ((right)
-     (player-move p 1 0))
+     (controller-right-set! c #t))
     ((up)
-     (player-move p 0 -1))
+     (controller-up-set! c #t))
     ((down)
-     (player-move p 0 1))
+     (controller-down-set! c #t))
     ((escape)
      (set! game-running #f))))
+
+(define (handle-key-up ev)
+  (case (sdl2:keyboard-event-sym ev)
+    ((left)
+     (controller-left-set! c #f))
+    ((right)
+     (controller-right-set! c #f))
+    ((up)
+     (controller-up-set! c #f))
+    ((down)
+     (controller-down-set! c #f))))
 
 (define (handle-event ev)
   (case (sdl2:event-type ev)
     ((quit)
      (set! game-running #f))
+    ((key-up)
+      (handle-key-up ev))
     ((key-down)
      (if (eqv? 0 (sdl2:keyboard-event-repeat ev))
       (handle-key-down ev)))))
@@ -66,10 +80,17 @@
 
 (define (draw)
   (sdl2:render-draw-color-set! renderer (sdl2:make-color 255 255 255))
-  (sdl2:render-fill-rect! renderer (sdl2:make-rect (player-x p) (player-y p) 10 10)))
+  (sdl2:render-fill-rect! renderer
+                          (sdl2:make-rect
+                            (floor (player-x p))
+                            (floor (player-y p)) 10 10)))
 
 (define (update dt)
-  (print dt))
+  (let* ((dp (v:* (controller-move-vector c) (* (/ dt 1000) player-speed)))
+         (dx (v:x dp))
+         (dy (v:y dp)))
+    ; (print (conc dx " " dy))
+    (player-move p dx dy)))
 
 (define (main-loop)
   (let ((last-time 0))
