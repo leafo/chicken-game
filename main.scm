@@ -65,14 +65,22 @@
   (sdl2:render-draw-color-set! renderer (sdl2:make-color 255 255 255))
   (sdl2:render-fill-rect! renderer (sdl2:make-rect (player-x p) (player-y p) 10 10)))
 
+(define (update dt)
+  (print dt))
+
 (define (main-loop)
-  (do-while game-running
-            (handle-events)
-            (sdl2:render-draw-color-set! renderer clear-color)
-            (sdl2:render-clear! renderer)
-            (draw)
-            (sdl2:render-present! renderer)
-            (sdl2:delay! 10)
-            (sdl2:pump-events!)))
+  (let ((last-time 0))
+    (do-while game-running
+              (handle-events)
+              (sdl2:render-draw-color-set! renderer clear-color)
+              (sdl2:render-clear! renderer)
+              (let ((new-time (sdl2:get-ticks)))
+                (if (> last-time 0) ; don't run on first frame
+                  (update (- new-time last-time)))
+                (set! last-time new-time))
+              (draw)
+              (sdl2:render-present! renderer)
+              (sdl2:delay! 10)
+              (sdl2:pump-events!))))
 
 (main-loop)
