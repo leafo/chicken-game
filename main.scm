@@ -6,6 +6,8 @@
 
 (on-exit sdl2:quit!)
 
+(load "vectors.scm")
+
 (define game-running #t)
 (define clear-color (sdl2:make-color 50 50 50))
 
