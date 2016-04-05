@@ -7,6 +7,7 @@
 (on-exit sdl2:quit!)
 
 (load "vectors.scm")
+(load "controller.scm")
 
 (define game-running #t)
 (define clear-color (sdl2:make-color 50 50 50))
@@ -18,6 +19,8 @@
   (player-y-set! obj (+ (player-y obj) dy)))
 
 (define p (make-player 10 10))
+
+(define c (make-controller #f #f #f #f))
 
 (define window
   (sdl2:create-window!
