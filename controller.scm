@@ -13,7 +13,7 @@
       (set! y -1))
     (if (controller-down c)
       (set! y 1))
-    (v:normalize (list x y))))
+    (v:normalize (make-v:vec x y))))
 
 (define (controller-key-down c key)
   (case key

@@ -1,12 +1,18 @@
 
 (declare (unit vectors))
 
-(define (v:x vec) (car vec))
-(define (v:y vec) (car (cdr vec)))
+(define-record v:vec x y)
+
+(define-record-printer
+  (v:vec obj out)
+  (fprintf out "#,(v:vec ~S ~S)" (v:x obj) (v:y obj)))
+
+(define v:x v:vec-x)
+(define v:y v:vec-y)
 
 (define (v:len vec)
-  (let* ((x (car vec))
-         (y (car (cdr vec)))
+  (let* ((x (v:x vec))
+         (y (v:y vec))
          (sq (+ (* x x) (* y y))))
     (if (= sq 0)
       0
@@ -16,12 +22,12 @@
   (let ((len (v:len vec)))
     (if (= 0 len)
       vec
-      (list
+      (make-v:vec
         (/ (v:x vec) len)
         (/ (v:y vec) len)))))
 
-
 (define (v:* vec scalar)
-  (list
+  (make-v:vec
     (* (v:x vec) scalar)
     (* (v:y vec) scalar)))
+
