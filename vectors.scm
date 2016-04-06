@@ -31,3 +31,9 @@
     (* (v:x vec) scalar)
     (* (v:y vec) scalar)))
 
+
+; mutates the vector
+(define (v:move obj dx dy)
+  (v:vec-x-set! obj (+ (v:x obj) dx))
+  (v:vec-y-set! obj (+ (v:y obj) dy)))
+
