@@ -26,7 +26,7 @@
         (/ (v:x vec) len)
         (/ (v:y vec) len)))))
 
-(define (v:* vec scalar)
+(define (v:vec-* vec scalar)
   (make-v:vec
     (* (v:x vec) scalar)
     (* (v:y vec) scalar)))

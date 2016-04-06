@@ -17,3 +17,4 @@ deploy:
 install: 
 	chicken-install sdl2
 	chicken-install loops
+	chicken-install fast-generic

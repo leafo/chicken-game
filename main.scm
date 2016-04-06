@@ -2,6 +2,8 @@
 (declare (uses vectors))
 (declare (uses controller))
 
+(include "types/generic.scm")
+
 (define player-speed 200) ; 200 pixel a second
 (define-record player x y)
 
@@ -28,9 +30,9 @@
                  (floor (player-y p)) 10 10))
 
 (define (update window dt)
-  (let* ((dp (v:* (controller-move-vector c) (* (/ dt 1000) player-speed)))
-         (dx (v:x dp))
-         (dy (v:y dp)))
+  (let* ((dp (mul (controller-move-vector c) (* (/ dt 1000) player-speed)))
+         (dx (x dp))
+         (dy (y dp)))
     (player-move p dx dy)))
 
 (let ((window (win:make-window 320 240)))
