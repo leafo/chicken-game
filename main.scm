@@ -14,28 +14,13 @@
 (define c (make-controller #f #f #f #f))
 
 (define (handle-key-down key)
+  (controller-key-down c key)
   (case key
-    ((left)
-     (controller-left-set! c #t))
-    ((right)
-     (controller-right-set! c #t))
-    ((up)
-     (controller-up-set! c #t))
-    ((down)
-     (controller-down-set! c #t))
     ((escape)
      (set! win:running #f))))
 
 (define (handle-key-up key)
-  (case key
-    ((left)
-     (controller-left-set! c #f))
-    ((right)
-     (controller-right-set! c #f))
-    ((up)
-     (controller-up-set! c #f))
-    ((down)
-     (controller-down-set! c #f))))
+  (controller-key-up c key))
 
 (define (draw window)
   (win:draw-rect window (win:make-color 255 255 255)
