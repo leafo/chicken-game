@@ -1,4 +1,6 @@
 
+(declare (unit controller))
+
 (define-record controller up down left right)
 (define (controller-move-vector obj)
   (let ((x 0) (y 0))

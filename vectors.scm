@@ -1,4 +1,6 @@
 
+(declare (unit vectors))
+
 (define (v:x vec) (car vec))
 (define (v:y vec) (car (cdr vec)))
 

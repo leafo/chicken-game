@@ -6,8 +6,8 @@
 
 (on-exit sdl2:quit!)
 
-(load "vectors.scm")
-(load "controller.scm")
+(declare (uses vectors))
+(declare (uses controller))
 
 (define game-running #t)
 (define clear-color (sdl2:make-color 50 50 50))

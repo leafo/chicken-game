@@ -1,10 +1,13 @@
 .PHONY: run install deploy
 
-run:
-	csi -s main.scm
+# run: main.scm
+# 	csi -s $<
 
-main: main.scm
-	csc  $<
+%.o: %.scm
+	csc -c $<
+
+main: main.o vectors.o controller.o
+	csc -o $@ $+
 
 deploy: 
 	csc -deploy -o deploy main.scm
