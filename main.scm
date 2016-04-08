@@ -1,12 +1,18 @@
-(declare (uses window))
-(declare (uses vectors))
-(declare (uses controller))
-(declare (uses entity))
-(declare (uses forces))
-(declare (uses generic))
+(declare
+  (uses
+    window
+    game
+    world
+    vectors
+    controller
+    entity
+    forces
+    generic))
+
+(define game #f)
 
 (define player-speed 200) ; 200 pixel a second
-(define p (new-entity 20 20))
+
 (define c (make-controller #f #f #f #f))
 
 (define (handle-key-down key)
@@ -19,16 +25,19 @@
   (controller-key-up c key))
 
 (define (draw-main window)
-  (draw p window)) ; draw the player
+  (draw (game-player game) window)) ; draw the player
 
 (define (update-main window dt)
-	(update p window dt)
+	(update (game-player game) window dt)
   (let* ((dp (mul (controller-move-vector c) (* dt player-speed)))
          (dx (x dp))
          (dy (y dp)))
-    (move p dx dy)))
+    (move (game-player game) dx dy)))
 
 (let ((window (win:make-window 320 240)))
+  (set! game (new-game window))
+  (game-player-set! game (new-entity 20 20))
+
   (win:window-on-draw-set! window draw-main)
   (win:window-on-update-set! window update-main)
   (win:window-on-key-up-set! window handle-key-up)
