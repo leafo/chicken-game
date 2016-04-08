@@ -2,8 +2,7 @@
 (declare (uses vectors))
 (declare (uses controller))
 (declare (uses entity))
-
-(include "types/generic.scm")
+(declare (uses generic))
 
 (define player-speed 200) ; 200 pixel a second
 (define p (new-entity 20 20))

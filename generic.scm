@@ -1,4 +1,6 @@
 
+(declare (unit generic))
+
 (use fast-generic)
 
 (define-type <v:vec> v:vec?)

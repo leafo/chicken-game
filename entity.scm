@@ -1,10 +1,5 @@
 (declare (unit entity))
 
-(declare (uses vectors))
-(declare (uses window))
-
-(include "types/generic.scm")
-
 (define (entity-x entity)
   (x (entity-pos entity)))
 
