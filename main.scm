@@ -28,7 +28,7 @@
   (draw (game-player game) game)) ; draw the player
 
 (define (update-main window dt)
-	(update (game-player game) game dt)
+  (update (game-player game) game dt)
   (let ((dp (mul (controller-move-vector c) (* dt player-speed))))
     (if (not (v:zero? dp))
       (entity-fit-move (game-player game) (game-world game) dp))))
