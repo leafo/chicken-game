@@ -37,6 +37,7 @@
 (let ((window (win:make-window 320 240)))
   (set! game (new-game window))
   (game-player-set! game (new-entity 20 20))
+  (game-world-set! game (new-world))
 
   (win:window-on-draw-set! window draw-main)
   (win:window-on-update-set! window update-main)

@@ -12,15 +12,30 @@
 (define (entity-move entity dx dy)
   (v:move (entity-pos entity) dx dy))
 
+; attempt to move, returns collision boolean per axis
+(define (entity-fit-move entity world v)
+  (let ((dx (x v))
+        (dy (y v))
+        (prev-x (x entity))
+        (prev-y (y entity)))
+    ; see if we fit
+    (entity-move entity dx dy)
+    (if (world-collides? world entity)
+      (begin ; collisioln case
+        ; just go back to where we were for now
+        (v:set (entity-pos entity) prev-x prev-y)
+        (values #t #t))
+      (values #f #f))))
+
+
 (define (entity:default-update entity game dt)
   (let ((iv (entity-inverse-mass entity)))
     (cond
       ((> iv 0)
-       ; move position from velocity
-       (entity-pos-set!
-         entity
-         (add (entity-pos entity)
-              (mul (entity-vel entity) dt)))
+       (let ((dp (mul (entity-vel entity) dt)))
+         (if (game-world game)
+           (entity-fit-move entity (game-world game) dp)
+           (entity-move (x dp) (y dp))))
 
        ; calculate new accelleration
        (entity-accel-set! entity

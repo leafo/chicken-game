@@ -41,3 +41,10 @@
   (v:vec-x-set! obj (+ (v:x obj) dx))
   (v:vec-y-set! obj (+ (v:y obj) dy)))
 
+; mutates the vector
+(define (v:set obj x y)
+  (v:vec-x-set! obj x)
+  (v:vec-y-set! obj y))
+
+
+
