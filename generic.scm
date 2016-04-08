@@ -33,12 +33,12 @@
   (entity-y obj))
 
 (define-generic
-  (draw (<entity> obj) window)
-  ((entity-on-draw obj) obj window))
+  (draw (<entity> obj) game)
+  ((entity-on-draw obj) obj game))
 
 (define-generic
-  (update (<entity> obj) window dt)
-  ((entity-on-update obj) obj window dt))
+  (update (<entity> obj) game dt)
+  ((entity-on-update obj) obj game dt))
 
 (define-generic
   (move (<entity> obj) dx dy)

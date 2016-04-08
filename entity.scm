@@ -12,7 +12,7 @@
 (define (entity-move entity dx dy)
   (v:move (entity-pos entity) dx dy))
 
-(define (entity:default-update entity win dt)
+(define (entity:default-update entity game dt)
   (let ((iv (entity-inverse-mass entity)))
     (cond
       ((> iv 0)
@@ -34,9 +34,9 @@
                         (add (entity-vel entity)
                              (mul (entity-accel entity) dt)))))))
 
-(define (entity:default-draw entity win)
+(define (entity:default-draw entity game)
   (win:draw-rect
-    win
+    (game-window game)
     (win:make-color 255 255 255)
     (floor (x entity))
     (floor (y entity)) 10 10))

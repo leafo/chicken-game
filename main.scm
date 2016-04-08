@@ -25,10 +25,10 @@
   (controller-key-up c key))
 
 (define (draw-main window)
-  (draw (game-player game) window)) ; draw the player
+  (draw (game-player game) game)) ; draw the player
 
 (define (update-main window dt)
-	(update (game-player game) window dt)
+	(update (game-player game) game dt)
   (let* ((dp (mul (controller-move-vector c) (* dt player-speed)))
          (dx (x dp))
          (dy (y dp)))
