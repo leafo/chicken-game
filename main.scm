@@ -1,4 +1,5 @@
 (declare
+  (export game)
   (uses
     window
     game
@@ -8,6 +9,7 @@
     entity
     forces
     generic))
+
 
 (define game #f)
 
