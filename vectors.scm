@@ -46,5 +46,6 @@
   (v:vec-x-set! obj x)
   (v:vec-y-set! obj y))
 
-
+(define (v:zero? vec)
+  (and (= 0 (v:x vec)) (= 0 (v:y vec))))
 

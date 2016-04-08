@@ -29,10 +29,9 @@
 
 (define (update-main window dt)
 	(update (game-player game) game dt)
-  (let* ((dp (mul (controller-move-vector c) (* dt player-speed)))
-         (dx (x dp))
-         (dy (y dp)))
-    (move (game-player game) dx dy)))
+  (let ((dp (mul (controller-move-vector c) (* dt player-speed))))
+    (if (not (v:zero? dp))
+      (entity-fit-move (game-player game) (game-world game) dp))))
 
 (let ((window (win:make-window 320 240)))
   (set! game (new-game window))

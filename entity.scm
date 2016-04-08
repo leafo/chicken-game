@@ -22,11 +22,10 @@
     (entity-move entity dx dy)
     (if (world-collides? world entity)
       (begin ; collisioln case
-        ; just go back to where we were for now
+        ; TODO: actually make this accurate instad of restoring position
         (v:set (entity-pos entity) prev-x prev-y)
         (values #t #t))
       (values #f #f))))
-
 
 (define (entity:default-update entity game dt)
   (let ((iv (entity-inverse-mass entity)))
@@ -34,7 +33,14 @@
       ((> iv 0)
        (let ((dp (mul (entity-vel entity) dt)))
          (if (game-world game)
-           (entity-fit-move entity (game-world game) dp)
+           ; test world collision
+           (receive (c-x c-y)
+                    (entity-fit-move entity (game-world game) dp)
+                    ; zero velocity if we've collided
+                    (if c-x (v:vec-x-set! (entity-vel entity) 0))
+                    (if c-y (v:vec-y-set! (entity-vel entity) 0)))
+
+           ; just move entity
            (entity-move (x dp) (y dp))))
 
        ; calculate new accelleration
