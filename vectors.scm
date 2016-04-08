@@ -5,7 +5,7 @@
 
 (define-record-printer
   (v:vec obj out)
-  (fprintf out "#,(v:vec ~S ~S)" (v:x obj) (v:y obj)))
+  (fprintf out "<v:vec ~S ~S>" (v:x obj) (v:y obj)))
 
 (define v:x v:vec-x)
 (define v:y v:vec-y)
@@ -26,11 +26,15 @@
         (/ (v:x vec) len)
         (/ (v:y vec) len)))))
 
-(define (v:vec-* vec scalar)
+(define (v:vec-scale vec scalar)
   (make-v:vec
     (* (v:x vec) scalar)
     (* (v:y vec) scalar)))
 
+(define (v:vec-add vec other)
+  (make-v:vec
+    (+ (v:x vec) (v:x other))
+    (+ (v:y vec) (v:y other))))
 
 ; mutates the vector
 (define (v:move obj dx dy)

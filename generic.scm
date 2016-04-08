@@ -17,7 +17,11 @@
 
 (define-generic
   (mul (<v:vec> obj) other)
-  (v:vec-* obj other))
+  (v:vec-scale obj other))
+
+(define-generic
+  (add (<v:vec> obj) other)
+  (v:vec-add obj other))
 
 ; Entity
 (define-generic
@@ -31,6 +35,10 @@
 (define-generic
   (draw (<entity> obj) window)
   ((entity-on-draw obj) obj window))
+
+(define-generic
+  (update (<entity> obj) window dt)
+  ((entity-on-update obj) obj window dt))
 
 (define-generic
   (move (<entity> obj) dx dy)

@@ -2,6 +2,7 @@
 (declare (uses vectors))
 (declare (uses controller))
 (declare (uses entity))
+(declare (uses forces))
 (declare (uses generic))
 
 (define player-speed 200) ; 200 pixel a second
@@ -21,7 +22,8 @@
   (draw p window)) ; draw the player
 
 (define (update-main window dt)
-  (let* ((dp (mul (controller-move-vector c) (* (/ dt 1000) player-speed)))
+	(update p window dt)
+  (let* ((dp (mul (controller-move-vector c) (* dt player-speed)))
          (dx (x dp))
          (dy (y dp)))
     (move p dx dy)))

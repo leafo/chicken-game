@@ -82,7 +82,7 @@
       (sdl2:render-clear! sdl-renderer)
       (let ((new-time (sdl2:get-ticks)))
         (if (> last-time 0) ; don't run on first frame
-          (on-update window (- new-time last-time)))
+          (on-update window (/ (- new-time last-time) 1000)))
         (set! last-time new-time))
       (on-draw window)
       (sdl2:render-present! sdl-renderer)
