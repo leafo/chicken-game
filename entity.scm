@@ -1,3 +1,5 @@
+(use loops)
+
 (declare (unit entity))
 
 (define (entity-x entity)
@@ -12,6 +14,47 @@
 (define (entity-move entity dx dy)
   (v:move (entity-pos entity) dx dy))
 
+; nudge entity, return true if no longer collided
+(define (entity-nudge-x entity world dx)
+  (v:move (entity-pos entity) dx 0)
+  (not (world-collides? world entity)))
+
+(define (entity-nudge-y entity world dy)
+  (v:move (entity-pos entity) 0 dy)
+  (not (world-collides? world entity)))
+
+; dir is vector pointing to where the player came from
+(define (entity-nudge-back entity world dir)
+  (let ((nudge-x (if (> (x dir) 0) 1 -1))
+        (nudge-y (if (> (y dir) 0) 1 -1))
+        (numer (abs (y dir)))
+        (denom (abs (x dir))))
+    (cond
+      ((= 0 numer) ; no y change, call nudge-x until we fit
+       (do-while (world-collides? world entity)
+                 (entity-nudge-x entity world nudge-x))
+       (values #t #f))
+      ((= 0 denom) ; no x change, nudge-y
+       (do-while (world-collides? world entity)
+                 (entity-nudge-y entity world nudge-y))
+       (values #f #t))
+      (else ; do bresenham nudging
+        (letrec
+          ((step (lambda (i)
+                   (cond
+                     ((>= i denom)
+                      (entity-nudge-y entity world nudge-y)
+                      (if (world-collides? world entity)
+                        (step (- i denom))
+                        (values #f #t)))
+                     (else
+                       (entity-nudge-x entity world nudge-x)
+                       (if (world-collides? world entity)
+                         (step (+ i numer))
+                         (values #t #f)))))))
+          (step 0))))))
+
+
 ; attempt to move, returns collision boolean per axis
 (define (entity-fit-move entity world v)
   (let ((dx (x v))
@@ -21,10 +64,9 @@
     ; see if we fit
     (entity-move entity dx dy)
     (if (world-collides? world entity)
-      (begin ; collisioln case
-        ; TODO: actually make this accurate instad of restoring position
-        (v:set (entity-pos entity) prev-x prev-y)
-        (values #t #t))
+      ; vector pointing back to where we came
+      (let ((dir-back (sub (make-v:vec prev-x prev-y) (entity-pos entity))))
+        (entity-nudge-back entity world dir-back))
       (values #f #f))))
 
 (define (entity:default-update entity game dt)
@@ -82,6 +124,10 @@
   on-update
   on-draw)
 
+(define-record-printer
+  (entity obj out)
+  (fprintf out "<entity pos:~S>" (entity-pos obj)))
+
 (define (new-entity #!optional (x 0) (y 0))
   (make-entity
     (make-v:vec x y)
@@ -91,3 +137,5 @@
     (list (forces:gravity 500))
     entity:default-update
     entity:default-draw))
+
+

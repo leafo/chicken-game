@@ -23,6 +23,10 @@
   (add (<v:vec> obj) other)
   (v:vec-add obj other))
 
+(define-generic
+  (sub (<v:vec> obj) other)
+  (v:vec-sub obj other))
+
 ; Entity
 (define-generic
   (x (<entity> obj))

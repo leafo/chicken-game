@@ -36,6 +36,11 @@
     (+ (v:x vec) (v:x other))
     (+ (v:y vec) (v:y other))))
 
+(define (v:vec-sub vec other)
+  (make-v:vec
+    (- (v:x vec) (v:x other))
+    (- (v:y vec) (v:y other))))
+
 ; mutates the vector
 (define (v:move obj dx dy)
   (v:vec-x-set! obj (+ (v:x obj) dx))
