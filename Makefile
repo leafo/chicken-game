@@ -1,4 +1,4 @@
-.PHONY: run install deploy
+.PHONY: run install deploy test
 
 # run: main.scm
 # 	csi -s $<
@@ -18,3 +18,6 @@ install:
 	chicken-install sdl2
 	chicken-install loops
 	chicken-install fast-generic
+
+test: 
+	csi -s test/main.scm
