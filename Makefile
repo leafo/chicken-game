@@ -21,3 +21,6 @@ install:
 
 test: 
 	csi -s test/main.scm
+
+deploy:
+	butler push -a http://localhost.com:8080 . leafo/chicken-game:linux
